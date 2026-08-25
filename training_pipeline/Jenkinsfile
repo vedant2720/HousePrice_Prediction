@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Install Dependencies') {
+            steps {
+                // Install the required packages first
+                bat 'pip install -r training_pipeline/requirements.txt'
+            }
+        }
         stage('Train & Register Model to EC2') {
             steps {
                 bat 'python training_pipeline/train.py' 
