@@ -1,6 +1,18 @@
 pipeline {
     agent any
+    
+    // Prevents the Windows emoji crash when MLflow prints logs
+    environment {
+        PYTHONIOENCODING = 'utf-8'
+    }
+    
     stages {
+        stage('Install Dependencies') {
+            steps {
+                bat 'pip install uv'
+                bat 'uv pip install --system -r deployment_pipeline/requirements.txt'
+            }
+        }
         stage('Download Latest Model from EC2') {
             steps {
                 bat 'python deployment_pipeline/download_model.py'
@@ -10,9 +22,7 @@ pipeline {
             steps {
                 dir('deployment_pipeline') {
                     bat 'docker build -t house-price-api:latest .'
-
                     bat 'docker rm -f house-price-api || exit 0'
-
                     bat 'docker run -d -p 8000:8000 --name house-price-api house-price-api:latest'
                 }
             }
