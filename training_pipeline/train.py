@@ -17,6 +17,6 @@ with mlflow.start_run():
     mlflow.sklearn.log_model(
         sk_model=model,
         artifact_path="model",
-        registered_model_name="HousePriceModel" # <-- This registers it in MLflow
+        registered_model_name="HousePriceModel"
     )
     print("Model trained and registered to EC2 MLflow!")
