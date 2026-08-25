@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    stages {
+        stage('Download Latest Model from EC2') {
+            steps {
+                sh 'python deployment_pipeline/download_model.py'
+            }
+        }
+        stage('Build & Deploy Container') {
+            steps {
+                dir('deployment_pipeline') {
+                    sh 'docker build -t house-price-api:latest .'
+                    sh 'docker rm -f house-price-api || true'
+                    sh 'docker run -d -p 8000:8000 --name house-price-api house-price-api:latest'
+                }
+            }
+        }
+    }
+}
