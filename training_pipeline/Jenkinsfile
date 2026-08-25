@@ -1,9 +1,14 @@
 pipeline {
     agent any
+    
+    // Add this environment block to force UTF-8 encoding
+    environment {
+        PYTHONIOENCODING = 'utf-8'
+    }
+    
     stages {
         stage('Install Dependencies') {
             steps {
-                // Install the required packages first
                 bat 'pip install uv'
                 bat 'uv pip install --system -r training_pipeline/requirements.txt'
             }
