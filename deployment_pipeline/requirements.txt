@@ -2,3 +2,4 @@ flask
 mlflow
 numpy
 scikit-learn
+skops
