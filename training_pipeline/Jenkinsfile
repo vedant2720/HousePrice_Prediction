@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Train & Register Model to EC2') {
             steps {
-                sh 'python training_pipeline/train.py' 
+                bat 'python training_pipeline/train.py' 
             }
         }
     }

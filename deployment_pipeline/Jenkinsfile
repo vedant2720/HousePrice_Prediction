@@ -3,15 +3,17 @@ pipeline {
     stages {
         stage('Download Latest Model from EC2') {
             steps {
-                sh 'python deployment_pipeline/download_model.py'
+                bat 'python deployment_pipeline/download_model.py'
             }
         }
         stage('Build & Deploy Container') {
             steps {
                 dir('deployment_pipeline') {
-                    sh 'docker build -t house-price-api:latest .'
-                    sh 'docker rm -f house-price-api || true'
-                    sh 'docker run -d -p 8000:8000 --name house-price-api house-price-api:latest'
+                    bat 'docker build -t house-price-api:latest .'
+
+                    bat 'docker rm -f house-price-api || exit 0'
+
+                    bat 'docker run -d -p 8000:8000 --name house-price-api house-price-api:latest'
                 }
             }
         }
