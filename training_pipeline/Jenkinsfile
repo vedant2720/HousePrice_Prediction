@@ -4,7 +4,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install the required packages first
-                bat 'pip install -r training_pipeline/requirements.txt'
+                bat 'pip install uv'
+                bat 'uv pip install -r training_pipeline/requirements.txt'
             }
         }
         stage('Train & Register Model to EC2') {
